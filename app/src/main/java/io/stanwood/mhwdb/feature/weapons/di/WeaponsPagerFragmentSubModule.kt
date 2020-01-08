@@ -1,6 +1,6 @@
 package io.stanwood.mhwdb.feature.weapons.di
 
-import androidx.lifecycle.ViewModelProviders
+import androidx.lifecycle.ViewModelProvider
 import dagger.Module
 import dagger.Provides
 import io.stanwood.framework.arch.di.factory.ViewDataProviderFactory
@@ -16,5 +16,5 @@ object WeaponsPagerFragmentSubModule {
         fragment: WeaponsPagerFragment,
         dataProviderFactory: ViewDataProviderFactory<WeaponsPagerDataProviderImpl>
     ): WeaponsPagerDataProvider =
-        ViewModelProviders.of(fragment, dataProviderFactory).get(WeaponsPagerDataProviderImpl::class.java)
+        ViewModelProvider(fragment, dataProviderFactory).get(WeaponsPagerDataProviderImpl::class.java)
 }

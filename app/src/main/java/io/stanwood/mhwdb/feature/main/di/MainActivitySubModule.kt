@@ -1,6 +1,6 @@
 package io.stanwood.mhwdb.feature.main.di
 
-import androidx.lifecycle.ViewModelProviders
+import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.findNavController
 import dagger.Module
 import dagger.Provides
@@ -24,5 +24,5 @@ object MainActivitySubModule {
         activity: MainActivity,
         viewModelFactory: ViewDataProviderFactory<MainDataProviderImpl>
     ): MainDataProvider =
-        ViewModelProviders.of(activity, viewModelFactory).get(MainDataProviderImpl::class.java)
+        ViewModelProvider(activity, viewModelFactory).get(MainDataProviderImpl::class.java)
 }
