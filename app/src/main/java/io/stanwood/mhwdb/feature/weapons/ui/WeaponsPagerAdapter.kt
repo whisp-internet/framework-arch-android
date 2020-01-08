@@ -5,7 +5,8 @@ import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentStatePagerAdapter
 import io.stanwood.mhwdb.repository.mhw.WeaponType
 
-class WeaponsPagerAdapter(fm: FragmentManager, val context: Context, var items: List<WeaponType>) : FragmentStatePagerAdapter(fm) {
+class WeaponsPagerAdapter(fm: FragmentManager, val context: Context, var items: List<WeaponType>) :
+    FragmentStatePagerAdapter(fm, BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT) {
     override fun getItem(position: Int) = WeaponsFragment.createInstance(items[position].id)
 
     override fun getCount() = items.size

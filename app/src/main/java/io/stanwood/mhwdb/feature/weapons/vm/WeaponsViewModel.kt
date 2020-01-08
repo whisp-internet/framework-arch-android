@@ -1,5 +1,6 @@
 package io.stanwood.mhwdb.feature.weapons.vm
 
+import io.reactivex.Maybe
 import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
@@ -11,7 +12,7 @@ import javax.inject.Inject
 
 class WeaponsViewModel @Inject constructor(val dataProvider: WeaponsDataProvider) : ViewModel {
     private val navigation = PublishSubject.create<NavigationTarget>()
-    val navigator = navigation.firstElement()
+    val navigator: Maybe<NavigationTarget> = navigation.firstElement()
     val items: Observable<List<WeaponsItemViewModel>> = dataProvider.data
         .filter { it.data != null }
         .map { res ->

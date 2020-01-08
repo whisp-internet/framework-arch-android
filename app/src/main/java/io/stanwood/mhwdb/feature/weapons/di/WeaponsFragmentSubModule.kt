@@ -1,7 +1,7 @@
 package io.stanwood.mhwdb.feature.weapons.di
 
 import androidx.databinding.DataBindingComponent
-import androidx.lifecycle.ViewModelProviders
+import androidx.lifecycle.ViewModelProvider
 import dagger.Module
 import dagger.Provides
 import io.stanwood.framework.arch.di.factory.ViewDataProviderFactory
@@ -34,8 +34,5 @@ object WeaponsFragmentSubModule {
         fragment: WeaponsFragment,
         dataProviderFactory: ViewDataProviderFactory<WeaponsDataProviderImpl>
     ): WeaponsDataProvider =
-        ViewModelProviders.of(
-            fragment,
-            dataProviderFactory
-        ).get(WeaponsDataProviderImpl::class.java)
+        ViewModelProvider(fragment, dataProviderFactory).get(WeaponsDataProviderImpl::class.java)
 }

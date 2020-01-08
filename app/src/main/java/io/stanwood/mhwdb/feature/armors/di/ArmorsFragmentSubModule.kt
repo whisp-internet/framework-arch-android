@@ -1,7 +1,7 @@
 package io.stanwood.mhwdb.feature.armors.di
 
 import androidx.databinding.DataBindingComponent
-import androidx.lifecycle.ViewModelProviders
+import androidx.lifecycle.ViewModelProvider
 import dagger.Module
 import dagger.Provides
 import io.stanwood.framework.arch.di.factory.ViewDataProviderFactory
@@ -34,5 +34,5 @@ object ArmorsFragmentSubModule {
         fragment: ArmorsFragment,
         dataProviderFactory: ViewDataProviderFactory<ArmorDataProviderImpl>
     ): ArmorDataProvider =
-        ViewModelProviders.of(fragment, dataProviderFactory).get(ArmorDataProviderImpl::class.java)
+        ViewModelProvider(fragment, dataProviderFactory).get(ArmorDataProviderImpl::class.java)
 }
