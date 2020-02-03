@@ -83,7 +83,7 @@ class ArmorDetailsFragment : Fragment(), HasAndroidInjector {
                 setHasFixedSize(true)
                 layoutManager = LinearLayoutManager(context)
             }
-            toolbar.addNavigateUp(requireFragmentManager())
+            toolbar.addNavigateUp(parentFragmentManager)
             lifecycleOwner = viewLifecycleOwner
         }
         rcvAdapter = ArmorDetailsAdapter(LayoutInflater.from(context), dataBindingComponent)
