@@ -25,9 +25,7 @@ fun <T : Any> Observable<T>.subscribeBy(
     onError: (Throwable) -> Unit = onErrorStub,
     onComplete: () -> Unit = onCompleteStub,
     onNext: (T) -> Unit
-) {
-    LifecycleSubscriber(lifecycleOwner) { subscribeBy(onError, onComplete, onNext) }
-}
+) = LifecycleSubscriber(lifecycleOwner) { subscribeBy(onError, onComplete, onNext) }
 
 /**
  * Overloaded subscribe function that allows passing named parameters and lifecycle
@@ -38,9 +36,7 @@ fun <T : Any> Flowable<T>.subscribeBy(
     onError: (Throwable) -> Unit = onErrorStub,
     onComplete: () -> Unit = onCompleteStub,
     onNext: (T) -> Unit
-) {
-    LifecycleSubscriber(lifecycleOwner) { subscribeBy(onError, onComplete, onNext) }
-}
+) = LifecycleSubscriber(lifecycleOwner) { subscribeBy(onError, onComplete, onNext) }
 
 /**
  * Overloaded subscribe function that allows passing named parameters and lifecycle
@@ -50,9 +46,7 @@ fun <T : Any> Single<T>.subscribeBy(
     lifecycleOwner: LifecycleOwner,
     onError: (Throwable) -> Unit = onErrorStub,
     onSuccess: (T) -> Unit
-) {
-    LifecycleSubscriber(lifecycleOwner) { subscribeBy(onError, onSuccess) }
-}
+) = LifecycleSubscriber(lifecycleOwner) { subscribeBy(onError, onSuccess) }
 
 /**
  * Overloaded subscribe function that allows passing named parameters and lifecycle
@@ -63,9 +57,7 @@ fun <T : Any> Maybe<T>.subscribeBy(
     onError: (Throwable) -> Unit = onErrorStub,
     onComplete: () -> Unit = onCompleteStub,
     onSuccess: (T) -> Unit
-) {
-    LifecycleSubscriber(lifecycleOwner) { subscribeBy(onError, onComplete, onSuccess) }
-}
+) = LifecycleSubscriber(lifecycleOwner) { subscribeBy(onError, onComplete, onSuccess) }
 
 /**
  * Overloaded subscribe function that allows passing named parameters and lifecycle
@@ -75,11 +67,9 @@ fun Completable.subscribeBy(
     lifecycleOwner: LifecycleOwner,
     onError: (Throwable) -> Unit = onErrorStub,
     onComplete: () -> Unit
-) {
-    LifecycleSubscriber(lifecycleOwner) { subscribeBy(onError, onComplete) }
-}
+) = LifecycleSubscriber(lifecycleOwner) { subscribeBy(onError, onComplete) }
 
-private class LifecycleSubscriber(
+class LifecycleSubscriber(
     private val lifecycleOwner: LifecycleOwner,
     val subscribe: () -> Disposable
 ) : LifecycleObserver {
@@ -87,6 +77,20 @@ private class LifecycleSubscriber(
 
     init {
         lifecycleOwner.lifecycle.addObserver(this)
+    }
+
+    /**
+     * Manually resubscribes to the Observable.
+     *
+     * It will do so right away if the lifecycle state is STARTED, otherwise it will wait for the lifecycle
+     * to reach STARTED state.
+     */
+    fun resubscribe() {
+        stop()
+        // only subscribe right away if STARTED, otherwise we will be auto-subscribed once STARTED
+        if (lifecycleOwner.lifecycle.currentState.isAtLeast(Lifecycle.State.STARTED)) {
+            start()
+        }
     }
 
     @OnLifecycleEvent(Lifecycle.Event.ON_START)
