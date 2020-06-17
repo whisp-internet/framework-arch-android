@@ -1,13 +1,13 @@
-[![Release](https://jitpack.io/v/stanwood/framework-arch-android.svg?style=flat-square)](https://jitpack.io/#stanwood/framework-arch-android)
+[![Release](https://jitpack.io/v/whisp-internet/framework-arch-android.svg?style=flat-square)](https://jitpack.io/#whisp-internet/framework-arch-android)
 [![API](https://img.shields.io/badge/API-16%2B-blue.svg?style=flat)](https://android-arsenal.com/api?level=16)
 
-# stanwood Architecture Utilities (Android)
+# whisp-internet Architecture Utilities (Android)
 
-A set of libraries containing homegrown architecture related utility classes as well as stanwood's general architecture guidelines.
+A set of libraries containing homegrown (based on [stanwood/framework-arch-android](https://github.com/stanwood/framework-arch-android)) architecture related utility classes as well as whisp's general architecture guidelines.
 
 ## Import
 
-The stanwood Architecture Utilities are hosted on JitPack. Therefore you can simply import them by adding
+The whisp Architecture Utilities are hosted on JitPack. Therefore you can simply import them by adding
 
 ```groovy
 allprojects {
@@ -24,13 +24,13 @@ Then add this to you app's `build.gradle`:
 
 ```groovy
 dependencies {
-    implementation 'com.github.stanwood.framework-arch-android:<module>:<insert latest version here>' // aar versions available as well
+    implementation 'com.github.whisp-internet.framework-arch-android:<module>:<insert latest version here>' // aar versions available as well
 }
 ```
 
 ## Usage
 
-In general we recommend usage of the [stanwood Android templates](https://plugins.jetbrains.com/plugin/11954-stanwood-android-templates) IntelliJ plugin. It provides easy to use templates for all the concepts described below and more. Install the plugin and find the templates in the `New...` context menu in the `stanwood` folder.
+In general we recommend usage of the [whisp Android templates](https://plugins.jetbrains.com/plugin/13865-whisp-android-templates) IntelliJ plugin. It provides easy to use templates for all the concepts described below and more. Install the plugin and find the templates in the `New...` context menu in the `whisp` folder.
 
 The templates include comments and TODOs. Fix all TODOs and you should have a nicely running app in no time.
 
