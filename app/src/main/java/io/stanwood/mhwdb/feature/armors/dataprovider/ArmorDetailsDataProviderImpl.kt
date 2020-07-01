@@ -1,23 +1,24 @@
 package io.stanwood.mhwdb.feature.armors.dataprovider
 
+import androidx.lifecycle.SavedStateHandle
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.rxkotlin.plusAssign
 import io.reactivex.subjects.BehaviorSubject
 import io.stanwood.framework.arch.core.ViewDataProvider
+import io.stanwood.framework.arch.core.delegate
 import io.stanwood.framework.arch.core.rx.ResourceTransformer
 import io.stanwood.mhwdb.interactor.GetArmorByIdInteractor
-import javax.inject.Inject
 
-class ArmorDetailsDataProviderImpl @Inject constructor(val interactor: GetArmorByIdInteractor) : ViewDataProvider(),
+class ArmorDetailsDataProviderImpl(
+    savedStateHandle: SavedStateHandle,
+    val interactor: GetArmorByIdInteractor
+) : ViewDataProvider(),
     ArmorDetailsDataProvider {
 
     private var disposable: CompositeDisposable = CompositeDisposable()
     private val idSubject = BehaviorSubject.create<Long>()
-    override var armorId: Long = 0
-        set(value) {
-            field = value
-            idSubject.onNext(field)
-        }
+
+    override var armorId: Long by savedStateHandle.delegate("armorId", 0L) { _, new -> idSubject.onNext(new) }
     override val data =
         idSubject.switchMap {
             interactor.getArmor(it).compose(ResourceTransformer.fromSingle()).toObservable()

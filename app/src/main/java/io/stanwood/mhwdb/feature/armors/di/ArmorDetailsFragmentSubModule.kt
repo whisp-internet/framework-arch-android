@@ -4,8 +4,9 @@ import androidx.databinding.DataBindingComponent
 import androidx.lifecycle.ViewModelProvider
 import dagger.Module
 import dagger.Provides
-import io.stanwood.framework.arch.di.factory.ViewDataProviderFactory
+import io.stanwood.framework.arch.di.factory.ViewDataProviderSavedStateFactory
 import io.stanwood.mhwdb.feature.armors.dataprovider.ArmorDetailsDataProvider
+import io.stanwood.mhwdb.feature.armors.dataprovider.ArmorDetailsDataProviderFactory
 import io.stanwood.mhwdb.feature.armors.dataprovider.ArmorDetailsDataProviderImpl
 import io.stanwood.mhwdb.feature.armors.ui.ArmorDetailsFragment
 import io.stanwood.mhwdb.glide.GlideAppFactory
@@ -32,7 +33,7 @@ object ArmorDetailsFragmentSubModule {
     @Provides
     internal fun provideArmorDetailsDataProvider(
         fragment: ArmorDetailsFragment,
-        dataProviderFactory: ViewDataProviderFactory<ArmorDetailsDataProviderImpl>
+        dataProviderFactory: ViewDataProviderSavedStateFactory<ArmorDetailsDataProviderImpl, ArmorDetailsDataProviderFactory>
     ): ArmorDetailsDataProvider =
         ViewModelProvider(fragment, dataProviderFactory).get(ArmorDetailsDataProviderImpl::class.java)
 }
