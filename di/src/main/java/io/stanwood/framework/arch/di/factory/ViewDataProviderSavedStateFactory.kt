@@ -56,6 +56,9 @@ import javax.inject.Inject
  *) : ViewDataProviderSavedStateFactory.Factory<DetailDataProviderImpl> {
  *    fun create(handle: SavedStateHandle) =
  *        DetailDataProviderImpl(handle, githubApi)
+ *
+ *    // optional
+ *    fun getDefaultArgs(): Bundle? = Bundle().apply { putString("someKey", "abc") }
  * }
  *
  *@Module
@@ -65,7 +68,7 @@ import javax.inject.Inject
  *   @JvmStatic
  *   internal fun provideDetailDataProvider(
  *       fragment: DetailFragment,
- *       dataProviderFactory: ViewDataProviderSavedStateFactory<DetailDataProviderImpl>
+ *       dataProviderFactory: ViewDataProviderSavedStateFactory<DetailDataProviderImpl, DetailDataProviderFactory>
  *   ): DetailDataProvider =
  *       ViewModelProvider(fragment, dataProviderFactory).get(DetailDataProviderImpl::class.java)
  * }
