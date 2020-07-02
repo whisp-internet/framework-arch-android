@@ -12,7 +12,8 @@ import io.stanwood.mhwdb.datasource.net.mhw.MhwApi
 import io.stanwood.mhwdb.datasource.net.mhw.MhwArmor
 import io.stanwood.mhwdb.datasource.net.mhw.MhwWeapon
 import kotlinx.serialization.UnstableDefault
-import kotlinx.serialization.list
+import kotlinx.serialization.builtins.list
+import kotlinx.serialization.json.Json
 import okio.BufferedSource
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
@@ -20,7 +21,7 @@ import javax.inject.Singleton
 
 @UnstableDefault
 @Singleton
-class MhwRepository @Inject constructor(private val api: MhwApi, fileSystem: FileSystem) {
+class MhwRepository @Inject constructor(private val api: MhwApi, fileSystem: FileSystem, json: Json) {
     companion object {
         private val allWeapon = BarCode("Weapon", "all")
         private val allArmor = BarCode("Armor", "all")
@@ -32,13 +33,13 @@ class MhwRepository @Inject constructor(private val api: MhwApi, fileSystem: Fil
             .build()
 
     private val weaponStore by lazy {
-        SerializationParserFactory.createSourceParser(MhwWeapon.serializer().list)
+        SerializationParserFactory.createSourceParser(MhwWeapon.serializer().list, json)
             .fetchFrom { api.fetchWeapon() }
             .open()
     }
 
     private val armorStore by lazy {
-        SerializationParserFactory.createSourceParser(MhwArmor.serializer().list)
+        SerializationParserFactory.createSourceParser(MhwArmor.serializer().list, json)
             .fetchFrom { api.fetchArmor() }
             .open()
     }

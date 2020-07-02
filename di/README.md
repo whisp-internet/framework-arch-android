@@ -27,7 +27,7 @@ kapt {
 
 dependencies {
     ...
-    def dagger_version = '2.21' // always use the same version as supplied by this library!
+    def dagger_version = '2.28' // always use the same version as supplied by this library!
     kapt "com.google.dagger:dagger-compiler:$dagger_version"
     kapt "com.google.dagger:dagger-android-processor:$dagger_version"
 }

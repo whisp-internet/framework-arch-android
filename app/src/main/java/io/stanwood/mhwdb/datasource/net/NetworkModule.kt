@@ -32,6 +32,9 @@ import io.stanwood.framework.network.core.interceptor.ConnectivityInterceptor
 import io.stanwood.framework.network.core.retrofit.BufferedSourceConverterFactory
 import io.stanwood.mhwdb.BuildConfig
 import io.stanwood.mhwdb.datasource.net.mhw.MhwApi
+import kotlinx.serialization.UnstableDefault
+import kotlinx.serialization.json.Json
+import kotlinx.serialization.json.JsonConfiguration
 import okhttp3.Cache
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
@@ -76,4 +79,10 @@ object NetworkModule {
     @Singleton
     fun provideFileSystem(context: Application): FileSystem =
         FileSystemFactory.create(File(context.noBackupFilesDir, "store"))
+
+    @UnstableDefault
+    @Provides
+    @Singleton
+    fun provideJsonSerializationConfiguration(): Json =
+        Json(JsonConfiguration(ignoreUnknownKeys = true))
 }
