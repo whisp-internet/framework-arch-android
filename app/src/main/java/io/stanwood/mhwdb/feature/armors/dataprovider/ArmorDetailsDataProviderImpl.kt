@@ -8,6 +8,7 @@ import io.stanwood.framework.arch.core.ViewDataProvider
 import io.stanwood.framework.arch.core.delegate
 import io.stanwood.framework.arch.core.rx.ResourceTransformer
 import io.stanwood.mhwdb.interactor.GetArmorByIdInteractor
+import io.stanwood.mhwdb.repository.mhw.Armor
 
 class ArmorDetailsDataProviderImpl(
     savedStateHandle: SavedStateHandle,
@@ -21,7 +22,7 @@ class ArmorDetailsDataProviderImpl(
     override var armorId: Long by savedStateHandle.delegate("armorId", 0L) { _, new -> idSubject.onNext(new) }
     override val data =
         idSubject.switchMap {
-            interactor.getArmor(it).compose(ResourceTransformer.fromSingle()).toObservable()
+            interactor.getArmor(it).compose(ResourceTransformer.fromSingle<Armor>()).toObservable()
         }
             .replay(1)
             .autoConnect(1) { disposable += it }

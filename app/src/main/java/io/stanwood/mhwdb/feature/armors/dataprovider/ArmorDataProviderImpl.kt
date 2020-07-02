@@ -37,7 +37,7 @@ class ArmorDataProviderImpl @Inject constructor(
                         }
                     })
             }
-            .compose(ResourceTransformer.fromSingle(exceptionMapper))
+            .compose(ResourceTransformer.fromSingle<Map<ArmorItem.SetViewModel, List<ArmorItem.ArmorViewModel>>>(exceptionMapper))
             .toObservable()
 
     override fun retry() {

@@ -35,32 +35,32 @@ import org.reactivestreams.Publisher
 
 object ResourceStatusTransformer {
 
-    fun <T> fromObservable(): ObservableTransformer<Resource<T>, ResourceStatus> =
+    fun <T : Any> fromObservable(): ObservableTransformer<Resource<T>, ResourceStatus> =
         ObservableResourceTransformer()
 
-    fun <T> fromSingle(): SingleTransformer<Resource<T>, ResourceStatus> =
+    fun <T : Any> fromSingle(): SingleTransformer<Resource<T>, ResourceStatus> =
         SingleResourceTransformer()
 
-    fun <T> fromFlowable(): FlowableTransformer<Resource<T>, ResourceStatus> =
+    fun <T : Any> fromFlowable(): FlowableTransformer<Resource<T>, ResourceStatus> =
         FlowableResourceTransformer()
 
-    private class FlowableResourceTransformer<T> : FlowableTransformer<Resource<T>, ResourceStatus> {
+    private class FlowableResourceTransformer<T : Any> : FlowableTransformer<Resource<T>, ResourceStatus> {
         override fun apply(upstream: Flowable<Resource<T>>): Publisher<ResourceStatus> =
             upstream.map { it.toResourceStatus() }
     }
 
-    private class ObservableResourceTransformer<T> : ObservableTransformer<Resource<T>, ResourceStatus> {
+    private class ObservableResourceTransformer<T : Any> : ObservableTransformer<Resource<T>, ResourceStatus> {
         override fun apply(upstream: Observable<Resource<T>>): ObservableSource<ResourceStatus> =
             upstream.map { it.toResourceStatus() }
     }
 
-    private class SingleResourceTransformer<T> : SingleTransformer<Resource<T>, ResourceStatus> {
+    private class SingleResourceTransformer<T : Any> : SingleTransformer<Resource<T>, ResourceStatus> {
         override fun apply(upstream: Single<Resource<T>>): SingleSource<ResourceStatus> =
             upstream.map { it.toResourceStatus() }
     }
 }
 
-fun <T> Resource<T>.toResourceStatus() =
+fun <T : Any> Resource<T>.toResourceStatus() =
     data
         ?.let { ResourceStatus.Success }
         ?: when (this) {

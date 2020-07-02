@@ -9,6 +9,7 @@ import io.stanwood.framework.arch.core.ViewDataProvider
 import io.stanwood.framework.arch.core.rx.ResourceTransformer
 import io.stanwood.mhwdb.feature.ExceptionMessageMapper
 import io.stanwood.mhwdb.interactor.GetWeaponTypesInteractor
+import io.stanwood.mhwdb.repository.mhw.WeaponType
 import javax.inject.Inject
 
 class WeaponsPagerDataProviderImpl @Inject constructor(
@@ -27,7 +28,7 @@ class WeaponsPagerDataProviderImpl @Inject constructor(
                     Observable.just(Resource.Loading()),
                     weaponTypesInteractor
                         .getWeaponTypes()
-                        .compose(ResourceTransformer.fromSingle(exceptionMapper))
+                        .compose(ResourceTransformer.fromSingle<List<WeaponType>>(exceptionMapper))
                         .toObservable()
                 )
             }
