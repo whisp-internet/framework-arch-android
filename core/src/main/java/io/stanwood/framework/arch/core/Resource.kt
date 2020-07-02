@@ -21,8 +21,8 @@
 
 package io.stanwood.framework.arch.core
 
-sealed class Resource<out T>(open val data: T? = null) {
-    data class Success<out T>(override val data: T) : Resource<T>()
-    class Failed<out T>(val msg: String, val cause: Throwable? = null, data: T? = null) : Resource<T>(data)
-    class Loading<out T>(data: T? = null) : Resource<T>(data)
+sealed class Resource<out T : Any>(open val data: T? = null) {
+    data class Success<out T : Any>(override val data: T) : Resource<T>()
+    class Failed<out T : Any>(val msg: String, val cause: Throwable? = null, data: T? = null) : Resource<T>(data)
+    class Loading<out T : Any>(data: T? = null) : Resource<T>(data)
 }

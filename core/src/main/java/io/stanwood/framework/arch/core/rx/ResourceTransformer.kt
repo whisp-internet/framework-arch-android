@@ -36,28 +36,28 @@ import timber.log.Timber
 object ResourceTransformer {
 
     private val defaultErrorTransformer: ((Throwable) -> String) = { it.message ?: "unknown error" }
-    fun <T> fromFlowable(
+    fun <T : Any> fromFlowable(
         transform: ((Throwable) -> String) = defaultErrorTransformer
     ): FlowableTransformer<T, Resource<T>> = FlowableResourceTransformer(transform)
 
-    fun <T> fromObservable(
+    fun <T : Any> fromObservable(
         transform: ((Throwable) -> String) = defaultErrorTransformer
     ): ObservableTransformer<T, Resource<T>> = ObservableResourceTransformer(transform)
 
-    fun <T> fromSingle(
+    fun <T : Any> fromSingle(
         transform: ((Throwable) -> String) = defaultErrorTransformer
     ): SingleTransformer<T, Resource<T>> =
         SingleResourceTransformer(transform)
 
-    private fun <T> createSuccess(source: T): Resource<T> =
+    private fun <T : Any> createSuccess(source: T): Resource<T> =
         Resource.Success(source)
 
-    private fun <T> createFailed(throwable: Throwable, exceptionMap: ((Throwable)) -> String): Resource<T> {
+    private fun <T : Any> createFailed(throwable: Throwable, exceptionMap: ((Throwable)) -> String): Resource<T> {
         Timber.e(throwable)
         return Resource.Failed(exceptionMap.invoke(throwable), throwable)
     }
 
-    private class ObservableResourceTransformer<T>(
+    private class ObservableResourceTransformer<T : Any>(
         private inline val exceptionMap: ((Throwable)) -> String
     ) : ObservableTransformer<T, Resource<T>> {
         override fun apply(upstream: Observable<T>): ObservableSource<Resource<T>> =
@@ -66,7 +66,7 @@ object ResourceTransformer {
                 .onErrorReturn { createFailed(it, exceptionMap) }
     }
 
-    private class SingleResourceTransformer<T>(
+    private class SingleResourceTransformer<T : Any>(
         private inline val exceptionMap: ((Throwable)) -> String
     ) : SingleTransformer<T, Resource<T>> {
         override fun apply(upstream: Single<T>): SingleSource<Resource<T>> =
@@ -75,7 +75,7 @@ object ResourceTransformer {
                 .onErrorReturn { createFailed(it, exceptionMap) }
     }
 
-    private class FlowableResourceTransformer<T>(
+    private class FlowableResourceTransformer<T : Any>(
         private inline val exceptionMap: ((Throwable)) -> String
     ) : FlowableTransformer<T, Resource<T>> {
         override fun apply(upstream: Flowable<T>): Publisher<Resource<T>> =
