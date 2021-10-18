@@ -31,7 +31,6 @@ import io.reactivex.SingleSource
 import io.reactivex.SingleTransformer
 import io.stanwood.framework.arch.core.Resource
 import org.reactivestreams.Publisher
-import timber.log.Timber
 
 object ResourceTransformer {
 
@@ -53,7 +52,6 @@ object ResourceTransformer {
         Resource.Success(source)
 
     private fun <T : Any> createFailed(throwable: Throwable, exceptionMap: ((Throwable)) -> String): Resource<T> {
-        Timber.e(throwable)
         return Resource.Failed(exceptionMap.invoke(throwable), throwable)
     }
 
